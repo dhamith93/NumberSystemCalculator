@@ -21,7 +21,7 @@ An Android app to perform addition, subtraction, multiplication and division on 
 
 
 
-![Screenshot_20180216-155416](screenshots/Screenshot_20180216-155416.png)
+![Screenshot_20180216-160142](screenshots/Screenshot_20180216-160142.png)
 
 
 
