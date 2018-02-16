@@ -17,12 +17,12 @@ An Android app to perform addition, subtraction, multiplication and division on 
 
 ## Screenshots
 
-![Screenshot_20180216-155430](screenshots/Screenshot_20180216-155430.png)
+![Screenshot_20180216-155430](screenshots/Screenshot_20180216-155430.png) | width=400
 
 
 
-![Screenshot_20180216-160142](screenshots/Screenshot_20180216-160142.png)
+![Screenshot_20180216-160142](screenshots/Screenshot_20180216-160142.png) | width=400
 
 
 
-![Screenshot_20180216-155400](screenshots/Screenshot_20180216-155457.png)
+![Screenshot_20180216-155400](screenshots/Screenshot_20180216-155457.png) | width=400
