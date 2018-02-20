@@ -8,10 +8,10 @@ An Android app to perform addition, subtraction, multiplication and division on 
 
 * Performs math operations [ +, -, *, / ] on base 2, base 8 and base 16 expressions.
 
-* Converts valid expressions between number systems.
+* Converts valid numbers between number systems.
 
-  * DEC button: converts the expression into decimal.
-  * Going through number systems: converts the expression into that number system.
+  * DEC button: converts the number into decimal.
+  * Going through number systems: converts the number into that number system.
   
 
 ## Screenshots
