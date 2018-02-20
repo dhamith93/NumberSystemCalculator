@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button  btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnA, btnB, btnC,
             btnD, btnE, btnF, btnPlus , btnMinus, btnMult , btnDiv, btnEq, btnConv, btnCls, btnBack;
     private EditText txtBox1;
+    private RadioButton rdoBin, rdoOct, rdoHex;
     private boolean onBin = true;
     private boolean onOct = false;
     private boolean onHex = false;
@@ -30,35 +32,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
             int prevRdx = (onBin) ? 2 : (onOct) ? 8 : 16;
-            switch (i) {
-                case R.id.rdoBin:
-                    convert(prevRdx, 2);
-                    toggleBinBtns(true);
-                    toggleHexBtns(false);
-                    toggleOctBtns(false);
-                    onBin = true;
-                    onOct = false;
-                    onHex = false;
-                    break;
-                case R.id.rdoOct:
-                    convert(prevRdx, 8);
-                    toggleBinBtns(true);
-                    toggleOctBtns(true);
-                    toggleHexBtns(false);
-                    onBin = false;
-                    onOct = true;
-                    onHex = false;
-                    break;
-                case R.id.rdoHex:
-                    convert(prevRdx, 16);
-                    toggleBinBtns(true);
-                    toggleOctBtns(true);
-                    toggleHexBtns(true);
-                    onBin = false;
-                    onOct = false;
-                    onHex = true;
-                    break;
-            }
+                if (!conved) {
+                    switch (i) {
+                        case R.id.rdoBin:
+                            convert(prevRdx, 2);
+                            toggleBinBtns(true);
+                            toggleHexBtns(false);
+                            toggleOctBtns(false);
+                            onBin = true;
+                            onOct = false;
+                            onHex = false;
+                            break;
+                        case R.id.rdoOct:
+                            convert(prevRdx, 8);
+                            toggleBinBtns(true);
+                            toggleOctBtns(true);
+                            toggleHexBtns(false);
+                            onBin = false;
+                            onOct = true;
+                            onHex = false;
+                            break;
+                        case R.id.rdoHex:
+                            convert(prevRdx, 16);
+                            toggleBinBtns(true);
+                            toggleOctBtns(true);
+                            toggleHexBtns(true);
+                            onBin = false;
+                            onOct = false;
+                            onHex = true;
+                            break;
+                    }
+                }
             }
         });
     }
@@ -191,13 +195,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int rdx = (onBin) ? 2 : (onOct) ? 8 : 16;
             try {
                 if (!conved) {
+                    String btnText = (onBin) ? "BIN" : (onOct) ? "OCT" : "HEX";
+                    btnConv.setText(btnText);
                     toggleAllBtns(false, 0);
+                    toggleRdoBtns(false);
                     conved = true;
                     long dec = Long.parseLong(input, rdx);
                     resultHold = input;
                     txtBox1.setText("DECIMAL: " + String.valueOf(dec));
                 } else {
+                    btnConv.setText("DEC");
                     toggleAllBtns(true, rdx);
+                    toggleRdoBtns(true);
                     conved = false;
                     txtBox1.setText(resultHold);
                     resultHold = "";
@@ -247,6 +256,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnConv = findViewById(R.id.btnConv);
         btnCls = findViewById(R.id.btnCls);
         btnBack = findViewById(R.id.btnBack);
+
+        rdoBin = findViewById(R.id.rdoBin);
+        rdoOct = findViewById(R.id.rdoOct);
+        rdoHex = findViewById(R.id.rdoHex);
 
         btn0.setOnClickListener(this);
         btn1.setOnClickListener(this);
@@ -332,6 +345,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             toggleHexBtns(cond);
         }
         toggleOpBtns(cond);
+    }
 
+    private void toggleRdoBtns(boolean cond) {
+        rdoBin.setEnabled(cond);
+        rdoOct.setEnabled(cond);
+        rdoHex.setEnabled(cond);
     }
 }
