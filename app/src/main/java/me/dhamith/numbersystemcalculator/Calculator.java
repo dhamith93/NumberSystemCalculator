@@ -10,5 +10,4 @@ interface Calculator {
     String subtract(String a, String b);
     String multiply(String a, String b);
     String divide(String a, String b);
-//    String inverse(String a, int length);
 }

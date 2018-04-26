@@ -18,7 +18,7 @@ public class HexadecimalCalculator implements Calculator {
                 return multiply(a, b);
 
             case "/":
-                if (Long.parseLong(b) == 0)
+                if (Long.parseLong(b, 16) == 0)
                     throw new DivideByZeroException();
                 return divide(a, b);
 

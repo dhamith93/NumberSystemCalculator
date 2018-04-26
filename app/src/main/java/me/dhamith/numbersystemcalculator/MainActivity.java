@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioButton rdoBin, rdoOct, rdoHex;
     private boolean onBin = true;
     private boolean onOct = false;
-    private boolean onHex = false;
     private boolean conved = false;
     private String resultHold;
     @Override
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             toggleOctBtns(false);
                             onBin = true;
                             onOct = false;
-                            onHex = false;
                             break;
                         case R.id.rdoOct:
                             convert(prevRdx, 8);
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             toggleHexBtns(false);
                             onBin = false;
                             onOct = true;
-                            onHex = false;
                             break;
                         case R.id.rdoHex:
                             convert(prevRdx, 16);
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             toggleHexBtns(true);
                             onBin = false;
                             onOct = false;
-                            onHex = true;
                             break;
                     }
                 }

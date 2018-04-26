@@ -8,12 +8,12 @@ import java.util.Collections;
  */
 
 class StringParser {
-    private String input;
-    private ExpressionTree tree;
-    private ArrayList<Character> digits = new ArrayList<>();
-    private ArrayList<Character> ops = new ArrayList<>();
-    private ArrayList<Character> priorityOps = new ArrayList<>();
-    private ArrayList<String> tokens = new ArrayList<>();
+    private final String input;
+    private final ExpressionTree tree;
+    private final ArrayList<Character> digits = new ArrayList<>();
+    private final ArrayList<Character> ops = new ArrayList<>();
+    private final ArrayList<Character> priorityOps = new ArrayList<>();
+    private final ArrayList<String> tokens = new ArrayList<>();
 
     StringParser(String input, String type) {
         this.input = input.toUpperCase();

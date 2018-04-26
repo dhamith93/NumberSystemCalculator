@@ -5,8 +5,8 @@ package me.dhamith.numbersystemcalculator;
  */
 
 class Node {
-    public String data;
-    boolean op;
+    public final String data;
+    final boolean op;
     String result;
     Node left;
     Node right;
@@ -14,6 +14,7 @@ class Node {
     Node(String data, boolean op) {
         this.data = data;
         this.op = op;
+        this.result = "";
         this.left = null;
         this.right = null;
     }

@@ -8,7 +8,7 @@ class ExpressionTree {
     private Node root;
     private Node current;
     private String result;
-    private Calculator calculator;
+    private final Calculator calculator;
 
     ExpressionTree(String type) {
         root = null;
@@ -27,6 +27,10 @@ class ExpressionTree {
         if (!root.op) {
             tempNode.left = root;
             root = tempNode;
+            return;
+        }
+        if (root.left == null) {
+            root.left = tempNode;
             return;
         }
         if (root.right == null) {
@@ -88,7 +92,7 @@ class ExpressionTree {
                     }
                 }
                 if (root.left.op && root.right.op) {
-                    if (!root.left.result.isEmpty()) {
+                    if (!root.left.result.isEmpty() && !root.right.result.isEmpty()) {
                         root.result = calculator.getResult(root.data, root.left.result, root.right.result);
                         return root.result;
                     }
@@ -100,8 +104,8 @@ class ExpressionTree {
 
     private void preoderTraversal(Node root) throws DivideByZeroException {
         if (root != null) {
-            preoderTraversal(root.left);
             preoderTraversal(root.right);
+            preoderTraversal(root.left);
             result = solve(root);
         }
     }
