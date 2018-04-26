@@ -6,18 +6,20 @@ package me.dhamith.numbersystemcalculator;
 
 public class HexadecimalCalculator implements Calculator {
     @Override
-    public String getResult(char op, String a, String b) {
+    public String getResult(String op, String a, String b) throws DivideByZeroException {
         switch (op) {
-            case '+':
+            case "+":
                 return add(a, b);
 
-            case '-':
+            case "-":
                 return subtract(a, b);
 
-            case '*':
+            case "*":
                 return multiply(a, b);
 
-            case '/':
+            case "/":
+                if (Long.parseLong(b) == 0)
+                    throw new DivideByZeroException();
                 return divide(a, b);
 
             default:
@@ -50,17 +52,6 @@ public class HexadecimalCalculator implements Calculator {
     public String divide(String a, String b) {
         long n1 = Long.parseLong(a, 16);
         long n2 = Long.parseLong(b, 16);
-        long res;
-        if (n2 > 0) {
-            res = n1 / n2;
-        } else {
-            throw new RuntimeException("Divide by 0");
-        }
-        return Long.toString(res, 16);
+        return Long.toString((n1 / n2), 16);
     }
-
-//    @Override
-//    public String inverse(String a, int length) {
-//        return null;
-//    }
 }

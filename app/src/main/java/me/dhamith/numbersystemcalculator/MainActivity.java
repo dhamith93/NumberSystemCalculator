@@ -180,11 +180,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!input.isEmpty()) {
             String type = (onBin) ? "bin" : (onOct) ? "oct" : "hex";
             try {
-                List list = StringParser.getList(input.trim(), type);
-                txtBox1.setText(list.solve().toUpperCase());
+                StringParser parser = new StringParser(input.trim(), type);
+                ExpressionTree tree = parser.getTree();
+                txtBox1.setText(tree.getResult().toUpperCase());
+            } catch (DivideByZeroException ex) {
+                Toast.makeText(this, ex.getMessage(),
+                        Toast.LENGTH_LONG).show();
             } catch (Exception ex) {
-//                Toast.makeText(this, "Unknown Operations or Values!",
-//                        Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Invalid Operation! Try again.",
+                        Toast.LENGTH_LONG).show();
             }
         }
     }

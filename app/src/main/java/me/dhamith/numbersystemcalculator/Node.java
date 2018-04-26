@@ -5,23 +5,16 @@ package me.dhamith.numbersystemcalculator;
  */
 
 class Node {
-    final String left;
-    final String right;
-    final char op;
+    public String data;
+    boolean op;
     String result;
-    boolean done;
-    Node next;
+    Node left;
+    Node right;
 
-    Node (char op, String left, String right) {
+    Node(String data, boolean op) {
+        this.data = data;
         this.op = op;
-        this.left = left;
-        this.right = right;
-        this.done = false;
-        this.next = null;
-    }
-
-    @Override
-    public String toString() {
-        return left + " " + op + " " + right;
+        this.left = null;
+        this.right = null;
     }
 }
