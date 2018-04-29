@@ -5,7 +5,7 @@ package me.dhamith.numbersystemcalculator;
  */
 
 class ExpressionTree {
-    private Node root;
+    public Node root;
     private Node current;
     private String result;
     private final Calculator calculator;
@@ -16,6 +16,20 @@ class ExpressionTree {
         current = null;
         calculator = (type.equals("bin")) ? new BinaryCalculator() :
                 (type.equals("oct") ? new OctalCalculator() : new HexadecimalCalculator());
+    }
+
+    void insert(Node tempNode) {
+        if (root == null) {
+            root = tempNode;
+            return;
+        }
+        if (root.left == null) {
+            root.left = tempNode;
+            return;
+        }
+        if (root.right == null) {
+            root.right = tempNode;
+        }
     }
 
     void insert(String data, boolean op) {

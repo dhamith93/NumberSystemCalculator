@@ -2,6 +2,8 @@ package me.dhamith.numbersystemcalculator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Stack;
 
 /**
  * Created by dhamith on 2/14/18.
@@ -9,21 +11,15 @@ import java.util.Collections;
 
 class StringParser {
     private final String input;
-    private final ExpressionTree tree;
+    private final String type;
     private final ArrayList<Character> digits = new ArrayList<>();
-    private final ArrayList<Character> ops = new ArrayList<>();
-    private final ArrayList<Character> priorityOps = new ArrayList<>();
-    private final ArrayList<String> tokens = new ArrayList<>();
+    private ArrayList<String> tokens = new ArrayList<>();
 
     StringParser(String input, String type) {
         this.input = input.toUpperCase();
-        tree = new ExpressionTree(type);
+        this.type = type;
         Character[] digits = new Character[]{'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-        Character[] ops = new Character[]{'+','-','*','/'};
-        Character[] priorityOps = new Character[]{'*','/'};
         Collections.addAll(this.digits, digits);
-        Collections.addAll(this.ops, ops);
-        Collections.addAll(this.priorityOps, priorityOps);
     }
 
     private void tokenize() {
@@ -31,7 +27,7 @@ class StringParser {
         int length = input.length();
         for (int i = 0; i < length; i++) {
             char c = input.charAt(i);
-            if (ops.contains(c)) {
+            if (op(c)) {
                 tokens.add(operand.toString());
                 tokens.add(String.valueOf(c));
                 operand = new StringBuilder();
@@ -47,38 +43,69 @@ class StringParser {
         }
     }
 
-    /**
-     * Rearranges the tokens so * and / gets priority.
-     */
-    private void rearrange() {
-        String[] tempTokens = tokens.toArray(new String[0]);
-        int length = tokens.size();
-        for (int i = 0; i < length; i += 1) {
-            if (!ops.contains(tempTokens[i].charAt(0)))
-                continue;
-            if ((i + 1) < length && priorityOps.contains(tempTokens[i].charAt(0)) && !ops.contains(tempTokens[i - 1].charAt(0))) {
-                String temp = tempTokens[i - 1];
-                tempTokens[i - 1] = tempTokens[i];
-                tempTokens[i] = temp;
+    private boolean op(String str) {
+        return (str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/"));
+    }
+
+    private boolean op(char c) {
+        return (c == '+' || c == '-' || c == '*' || c == '/');
+    }
+
+    private void convertToPostfix() {
+        tokenize();
+        Stack<String> operations = new Stack<>();
+        ArrayList<String> output = new ArrayList<>();
+        HashMap<String, Integer> order = new HashMap<>();
+        order.put("+", 1);
+        order.put("-", 1);
+        order.put("*", 2);
+        order.put("/", 2);
+        for (String token : tokens) {
+            if (!op(token)) {
+                output.add(token);
                 continue;
             }
-            if ((i + 2) < length && priorityOps.contains(tempTokens[i + 2].charAt(0))) {
-                String temp = tempTokens[i + 1];
-                tempTokens[i + 1] = tempTokens[i + 2];
-                tempTokens[i + 2] = temp;
+            if (operations.empty()) {
+                operations.push(token);
+                continue;
             }
+            while (!operations.empty() && order.get(operations.peek()) >= order.get(token))
+                output.add(operations.pop());
+            operations.push(token);
         }
+        while (!operations.empty())
+            output.add(operations.pop());
         tokens.clear();
-        Collections.addAll(tokens, tempTokens);
+        tokens = output;
+    }
+
+    private ExpressionTree makeTree() {
+        Stack<ExpressionTree> trees = new Stack<>();
+        for (String token: tokens) {
+            if (!op(token)) {
+                ExpressionTree t = new ExpressionTree(type);
+                t.insert(token, false);
+                trees.push(t);
+                continue;
+            }
+            ExpressionTree tempTree = new ExpressionTree(type);
+            tempTree.insert(token, true);
+            ExpressionTree t = new ExpressionTree(type);
+            if (!trees.peek().root.op) {
+                t = trees.pop();
+            }
+            tempTree.insert(trees.pop().root);
+            if (t.root != null)
+                tempTree.insert(t.root);
+            else
+                tempTree.insert(trees.pop().root);
+            trees.push(tempTree);
+        }
+        return trees.pop();
     }
 
     ExpressionTree getTree() {
-        tokenize();
-        if (tokens.size() > 3)
-            rearrange();
-        for (String s : tokens) {
-            tree.insert(s, ops.contains(s.charAt(0)));
-        }
-        return tree;
+        convertToPostfix();
+        return makeTree();
     }
 }
