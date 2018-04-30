@@ -1,5 +1,6 @@
 package me.dhamith.numbersystemcalculator;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnCls:
+                txtBox1.setTextColor(Color.BLACK);
                 txtBox1.setText("");
                 break;
 
@@ -180,8 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ExpressionTree tree = parser.getTree();
                 txtBox1.setText(tree.getResult().toUpperCase());
             } catch (DivideByZeroException ex) {
-                Toast.makeText(this, ex.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                txtBox1.setTextColor(Color.RED);
+                txtBox1.setText("Can't divide by 0!");
             } catch (Exception ex) {
                 Toast.makeText(this, "Invalid Operation! Try again.",
                         Toast.LENGTH_LONG).show();
