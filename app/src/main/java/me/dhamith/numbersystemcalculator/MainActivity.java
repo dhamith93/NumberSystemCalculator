@@ -140,11 +140,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnMult:
-                txtBox1.append("*");
+                txtBox1.append("×");
                 break;
 
             case R.id.btnDiv:
-                txtBox1.append("/");
+                txtBox1.append("÷");
                 break;
 
             case R.id.btnEq:
@@ -198,13 +198,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 if (!conved) {
                     String btnText = (onBin) ? "BIN" : (onOct) ? "OCT" : "HEX";
+                    String type = (onBin) ? "bin" : (onOct) ? "oct" : "hex";
                     btnConv.setText(btnText);
                     toggleAllBtns(false, 0);
                     toggleRdoBtns(false);
                     conved = true;
-                    long dec = Long.parseLong(input, rdx);
+                    StringParser parser = new StringParser(input, type);
                     resultHold = input;
-                    txtBox1.setText("DECIMAL: " + String.valueOf(dec));
+                    txtBox1.setText("DECIMAL: " + parser.convert("dec"));
                 } else {
                     btnConv.setText("DEC");
                     toggleAllBtns(true, rdx);
@@ -223,11 +224,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String input = txtBox1.getText().toString();
         if (!input.isEmpty()) {
             try {
-                long dec = Long.parseLong(input, prevRdx);
+                String prevType = (prevRdx == 2) ? "bin" : (prevRdx == 8) ? "oct" : "hex";
+                String type = (curRdx == 2) ? "bin" : (curRdx == 8) ? "oct" : "hex";
+                StringParser parser = new StringParser(input, prevType);
                 resultHold = input;
-                txtBox1.setText(Long.toString(dec, curRdx).toUpperCase());
+                txtBox1.setText(parser.convert(type));
             } catch (Exception ex) {
-                // Either invalid input or an operation
+                // invalid input
                 txtBox1.setText("");
             }
         }

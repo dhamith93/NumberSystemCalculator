@@ -16,7 +16,7 @@ class StringParser {
     private ArrayList<String> tokens = new ArrayList<>();
 
     StringParser(String input, String type) {
-        this.input = input.toUpperCase();
+        this.input = input.toUpperCase().replace("×", "*").replace("÷", "/");
         this.type = type;
         Character[] digits = new Character[]{'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
         Collections.addAll(this.digits, digits);
@@ -107,5 +107,26 @@ class StringParser {
     ExpressionTree getTree() {
         convertToPostfix();
         return makeTree();
+    }
+
+    String convert(String to) {
+        ArrayList<String> output = new ArrayList<>();
+        tokenize();
+        int rdx = (type.equals("bin")) ? 2 : (type.equals("oct")) ? 8 : 16;
+        int outputRdx = (to.equals("bin")) ? 2 : (to.equals("oct")) ? 8 : 16;
+        for (String token : tokens) {
+            if (op(token)) {
+                output.add(token.replace("*", "×").replace("/", "÷"));
+                continue;
+            }
+            long dec = Long.parseLong(token, rdx);
+            String str = (to.equals("dec")) ? String.valueOf(dec)
+                    : Long.toString(dec, outputRdx);
+            output.add(str);
+        }
+        StringBuilder builder = new StringBuilder();
+        for (String element : output)
+            builder.append(element);
+        return builder.toString().toUpperCase();
     }
 }
